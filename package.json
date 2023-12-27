@@ -1,6 +1,6 @@
 {
   "name": "@ntholi/admin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Automates Next.js admin panel",
   "scripts": {
     "build": "rollup -c",
@@ -36,7 +36,7 @@
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
