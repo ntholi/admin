@@ -1,0 +1,30 @@
+{
+  "name": "admin",
+  "version": "0.0.1",
+  "description": "Automates Next.js admin panel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ntholi/admin.git"
+  },
+  "keywords": [
+    "Next.js Admin",
+    "React Admin",
+    "Next Admin",
+    "Adminjs"
+  ],
+  "author": "Ntholi Nkhatho",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ntholi/admin/issues"
+  },
+  "homepage": "https://github.com/ntholi/admin#readme",
+  "devDependencies": {
+    "@types/react": "^18.2.45",
+    "react": "^18.2.0",
+    "typescript": "^5.3.3"
+  }
+}
