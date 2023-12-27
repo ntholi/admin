@@ -1,8 +1,9 @@
 import React from 'react';
+import './Button.css';
 
 type Props = {
-  text: string;
+  children: React.ReactNode;
 };
-export default function Button({ text }: Props) {
-  return <div>{text}</div>;
+export default function Button({ children }: Props) {
+  return <button>{children}</button>;
 }
