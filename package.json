@@ -1,5 +1,5 @@
 {
-  "name": "admin",
+  "name": "@ntholi/admin",
   "version": "0.0.1",
   "description": "Automates Next.js admin panel",
   "scripts": {
@@ -39,5 +39,9 @@
   "types": "dist/types/index.d.ts",
   "files": [
     "dist"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com/ntholi"
+  }
 }
