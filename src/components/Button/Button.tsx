@@ -1,3 +1,12 @@
-export default function Button() {
-  return <button className='text-blue-500 px-2 py-6'>I am a Button</button>;
+import { ComponentProps } from 'react';
+
+export default function Button({
+  children,
+  ...rest
+}: ComponentProps<'button'>) {
+  return (
+    <button {...rest} className='text-blue-500 py-2 px-6 border'>
+      {children}
+    </button>
+  );
 }
