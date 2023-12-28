@@ -1,12 +1,11 @@
-import { Button } from '@/components';
+'use client';
+import { Button } from '@/components/ui/button';
 
 export default function TwoButton() {
   return (
     <button className={'flex gap-3 p-5 border border-red-500'}>
-      <Button>One</Button>
-      <Button variant='secondary' size='md'>
-        Two
-      </Button>
+      <Button>Button 1</Button>
+      <Button>Button 2</Button>
     </button>
   );
 }
