@@ -22,7 +22,7 @@ export const Default: Story = {
   },
 };
 
-export const Secondary = {
+export const Secondary: Story = {
   ...Default,
   args: {
     ...Default.args,
