@@ -29,6 +29,7 @@ function CreateView<T extends Resource>(props: CreateViewProps<T>) {
   });
 
   function onSubmit(data: z.infer<typeof schema>) {
+    console.log(data);
     repository?.create(data as T);
     toast({
       title: 'You submitted the following values:',

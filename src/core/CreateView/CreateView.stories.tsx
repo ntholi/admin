@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import CreateView from './CreateView';
 import * as z from 'zod';
 import { FakeRepository } from '@/repository/FakeRepository';
-import FileInput from '../common/FileInput';
+import ImageInput from '../common/ImageInput';
 
 const meta: Meta<typeof CreateView> = {
   title: 'Core/CreateView',
@@ -18,9 +18,7 @@ export default meta;
 type Story = StoryObj<typeof CreateView>;
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
+  file: z.any(),
 });
 
 const repository = new FakeRepository();
@@ -29,12 +27,6 @@ export const Default: Story = {
   args: {
     schema: FormSchema,
     repository,
-    children: (
-      <FileInput
-        name='username'
-        description='This is a description'
-        placeholder='This is a Placeholder'
-      />
-    ),
+    children: <ImageInput name='file' label='Image' />,
   },
 };

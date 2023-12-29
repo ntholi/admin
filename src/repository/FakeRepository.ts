@@ -27,7 +27,9 @@ export class FakeRepository implements Repository<User> {
   async create(resource: ResourceCreate<User>): Promise<User> {
     const newUser = { ...resource, id: Date.now().toString() };
     this.data.push(newUser);
-    console.log(`Created new user with id: ${newUser.id}`);
+    console.log(
+      `Created new user '${resource.username}' with id: ${newUser.id}`
+    );
     return newUser;
   }
 
