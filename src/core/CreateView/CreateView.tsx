@@ -19,7 +19,7 @@ export type CreateViewProps<T extends Resource> = {
 };
 
 function CreateView<T extends Resource>(props: CreateViewProps<T>) {
-  const { schema, children } = props;
+  const { schema, repository, children } = props;
   const { toast } = useToast();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -29,6 +29,7 @@ function CreateView<T extends Resource>(props: CreateViewProps<T>) {
   });
 
   function onSubmit(data: z.infer<typeof schema>) {
+    console.log('repository', repository);
     toast({
       title: 'You submitted the following values:',
       description: (

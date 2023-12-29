@@ -5,7 +5,7 @@ export interface Repository<T extends Resource> {
   getAll: (limit?: number) => Promise<T[]>;
   get: (id: string) => Promise<T | undefined>;
   create: (resource: ResourceCreate<T>) => Promise<T>;
-  update: (id: string, resource: T) => Promise<T>;
+  update: (id: string, resource: Omit<T, 'id'>) => Promise<T>;
   delete: (id: string) => Promise<void>;
   getAllBy: (field: string, value: string) => Promise<T[]>;
   getResource<R extends Resource>(resourceName: string, id: string): Promise<R>;
