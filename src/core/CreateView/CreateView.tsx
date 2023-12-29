@@ -10,13 +10,15 @@ import { Form } from '@/components/ui/form';
 import * as z from 'zod';
 import React from 'react';
 import FormWrapper from '../common/FormWrapper';
+import { Repository, Resource } from '@/repository';
 
-export type CreateViewProps = {
+export type CreateViewProps<T extends Resource> = {
   schema: ZodObject<{ [K in string | number | symbol]: ZodTypeAny }>;
   children: React.ReactElement;
+  repository?: Repository<T>;
 };
 
-export default function CreateView(props: CreateViewProps) {
+function CreateView<T extends Resource>(props: CreateViewProps<T>) {
   const { schema, children } = props;
   const { toast } = useToast();
   const form = useForm<z.infer<typeof schema>>({
@@ -47,3 +49,5 @@ export default function CreateView(props: CreateViewProps) {
     </Form>
   );
 }
+
+export default CreateView;

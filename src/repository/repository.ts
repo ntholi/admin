@@ -1,10 +1,4 @@
-export interface Resource {
-  id: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-export type ResourceCreate<OmitType> = Omit<OmitType, 'id' | 'updatedAt'>;
+import { Resource, ResourceCreate } from './Resource';
 
 export interface Repository<T extends Resource> {
   listen: (callback: (resources: T[]) => void) => () => void;

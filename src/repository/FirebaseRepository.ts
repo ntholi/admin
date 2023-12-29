@@ -13,8 +13,9 @@ import {
   where,
   limit as limitQuery,
 } from 'firebase/firestore';
-import { Repository, Resource, ResourceCreate } from './repository';
 import { Firestore } from 'firebase/firestore';
+import { Resource, ResourceCreate } from './Resource';
+import { Repository } from './Repository';
 
 export class FirebaseRepository<T extends Resource> implements Repository<T> {
   constructor(

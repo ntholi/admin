@@ -1,2 +1,3 @@
-export { FirebaseRepository } from './firebase-repository';
-export type { Repository, Resource, ResourceCreate } from './repository';
+export { FirebaseRepository } from './FirebaseRepository';
+export type { Repository } from './Repository';
+export type { Resource, ResourceCreate } from './Resource';
