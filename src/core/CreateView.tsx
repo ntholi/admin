@@ -1,47 +1,77 @@
 'use client';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/components/ui/use-toast';
 
-import React, { PropsWithChildren } from 'react';
 import { ZodObject, ZodTypeAny } from 'zod';
-import { useQueryState } from 'next-usequerystate';
 import { Button } from '@/components/ui/button';
 import { Resource, Repository } from '@/repository';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import * as z from 'zod';
 
 export type CreateViewProps<T extends Resource> = {
   schema?: ZodObject<{ [K in string | number | symbol]: ZodTypeAny }>;
   repository: Repository<T>;
 };
 
-export default function CreateView<T extends Resource>(
-  props: PropsWithChildren<CreateViewProps<T>>
-) {
-  const { children, schema, repository } = props;
-  const form = useForm<T>({
-    resolver: schema && zodResolver(schema),
-  });
-  const [__, setView] = useQueryState('view');
-  const [_, setId] = useQueryState('id');
+const FormSchema = z.object({
+  username: z.string().min(2, {
+    message: 'Username must be at least 2 characters.',
+  }),
+});
 
-  const handleSubmit = async (values: T) => {
-    if (repository) {
-      const res = await repository.create(values);
-      setView(null);
-      setId(res.id);
-    }
-  };
+export default function CreateView() {
+  const { toast } = useToast();
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      username: '',
+    },
+  });
+
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    toast({
+      title: 'You submitted the following values:',
+      description: (
+        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    });
+  }
 
   return (
-    <form className='p-5' onSubmit={form.handleSubmit(handleSubmit)}>
-      {React.Children.map(children, (child: React.ReactNode) => {
-        if (!React.isValidElement(child)) return child;
-        return React.cloneElement(child as React.ReactElement, {
-          ...child.props,
-          ...form.getInputProps(child.props.name),
-          repository,
-        });
-      })}
-      <Button>Create</Button>
-    </form>
+    <Form {...form}>
+      <form className='p-5 space-y-8' onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name='username'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder='shadcn' {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button>Create</Button>
+      </form>
+      <Toaster />
+    </Form>
   );
 }
