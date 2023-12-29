@@ -4,7 +4,6 @@ import { useToast } from '@/components/ui/use-toast';
 
 import { ZodObject, ZodTypeAny } from 'zod';
 import { Button } from '@/components/ui/button';
-import { Resource, Repository } from '@/repository';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -18,28 +17,24 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import * as z from 'zod';
+import React, { ReactElement } from 'react';
 
-export type CreateViewProps<T extends Resource> = {
-  schema?: ZodObject<{ [K in string | number | symbol]: ZodTypeAny }>;
-  repository: Repository<T>;
+export type CreateViewProps = {
+  schema: ZodObject<{ [K in string | number | symbol]: ZodTypeAny }>;
+  children: ReactElement<HTMLFormElement> | ReactElement<HTMLFormElement>[];
 };
 
-const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
-});
-
-export default function CreateView() {
+export default function CreateView(props: CreateViewProps) {
+  const { schema, children } = props;
   const { toast } = useToast();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
     defaultValues: {
       username: '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof schema>) {
     toast({
       title: 'You submitted the following values:',
       description: (
@@ -53,22 +48,30 @@ export default function CreateView() {
   return (
     <Form {...form}>
       <form className='p-5 space-y-8' onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name='username'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder='shadcn' {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {React.Children.map(children, (child: React.ReactNode) => {
+          if (!React.isValidElement(child)) return child;
+          if (child.type == 'input') {
+            const { name, placeholder } = child.props;
+            return (
+              <FormField
+                control={form.control}
+                name={name}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{name}</FormLabel>
+                    <FormControl>
+                      <Input placeholder='shadcn' {...field} />
+                    </FormControl>
+                    <FormDescription>{placeholder}</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            );
+          }
+          return child;
+        })}
+
         <Button>Create</Button>
       </form>
       <Toaster />
