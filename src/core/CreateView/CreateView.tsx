@@ -6,18 +6,10 @@ import { ZodObject, ZodTypeAny } from 'zod';
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form, FormField } from '@/components/ui/form';
 import * as z from 'zod';
 import React, { ReactElement } from 'react';
+import TextInput from '../common/TextInput';
 
 export type CreateViewProps = {
   schema: ZodObject<{ [K in string | number | symbol]: ZodTypeAny }>;
@@ -50,21 +42,20 @@ export default function CreateView(props: CreateViewProps) {
       <form className='p-5 space-y-8' onSubmit={form.handleSubmit(onSubmit)}>
         {React.Children.map(children, (child: React.ReactNode) => {
           if (!React.isValidElement(child)) return child;
-          if (child.type == 'input') {
-            const { name, placeholder } = child.props;
+          if (child.type == TextInput) {
+            const { name, placeholder, label, description } = child.props;
             return (
               <FormField
                 control={form.control}
                 name={name}
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{name}</FormLabel>
-                    <FormControl>
-                      <Input placeholder='shadcn' {...field} />
-                    </FormControl>
-                    <FormDescription>{placeholder}</FormDescription>
-                    <FormMessage />
-                  </FormItem>
+                  <TextInput
+                    field={field}
+                    name={name}
+                    label={label}
+                    placeholder={placeholder}
+                    description={description}
+                  />
                 )}
               />
             );

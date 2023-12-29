@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import CreateView from './CreateView';
 import * as z from 'zod';
+import TextInput from '../common/TextInput';
 
 const meta: Meta<typeof CreateView> = {
   title: 'Core/CreateView',
@@ -24,6 +25,12 @@ const FormSchema = z.object({
 export const Default: Story = {
   args: {
     schema: FormSchema,
-    children: <input name='username' placeholder='This is a Placeholder' />,
+    children: (
+      <TextInput
+        name='username'
+        description='This is a description'
+        placeholder='This is a Placeholder'
+      />
+    ),
   },
 };
