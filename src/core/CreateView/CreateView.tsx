@@ -6,14 +6,14 @@ import { ZodObject, ZodTypeAny } from 'zod';
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormField } from '@/components/ui/form';
+import { Form } from '@/components/ui/form';
 import * as z from 'zod';
-import React, { ReactElement } from 'react';
-import TextInput from '../common/TextInput';
+import React from 'react';
+import FormWrapper from '../common/FormWrapper';
 
 export type CreateViewProps = {
   schema: ZodObject<{ [K in string | number | symbol]: ZodTypeAny }>;
-  children: ReactElement<HTMLFormElement> | ReactElement<HTMLFormElement>[];
+  children: React.ReactElement;
 };
 
 export default function CreateView(props: CreateViewProps) {
@@ -40,29 +40,7 @@ export default function CreateView(props: CreateViewProps) {
   return (
     <Form {...form}>
       <form className='p-5 space-y-8' onSubmit={form.handleSubmit(onSubmit)}>
-        {React.Children.map(children, (child: React.ReactNode) => {
-          if (!React.isValidElement(child)) return child;
-          if (child.type == TextInput) {
-            const { name, placeholder, label, description } = child.props;
-            return (
-              <FormField
-                control={form.control}
-                name={name}
-                render={({ field }) => (
-                  <TextInput
-                    field={field}
-                    name={name}
-                    label={label}
-                    placeholder={placeholder}
-                    description={description}
-                  />
-                )}
-              />
-            );
-          }
-          return child;
-        })}
-
+        <FormWrapper form={form}>{children}</FormWrapper>
         <Button>Create</Button>
       </form>
       <Toaster />
