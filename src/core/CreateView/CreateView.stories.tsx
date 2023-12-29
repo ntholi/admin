@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import CreateView from './CreateView';
 import * as z from 'zod';
-import TextInput from '../common/TextInput';
 import { FakeRepository } from '@/repository/FakeRepository';
+import FileInput from '../common/FileInput';
 
 const meta: Meta<typeof CreateView> = {
   title: 'Core/CreateView',
@@ -30,7 +30,7 @@ export const Default: Story = {
     schema: FormSchema,
     repository,
     children: (
-      <TextInput
+      <FileInput
         name='username'
         description='This is a description'
         placeholder='This is a Placeholder'
