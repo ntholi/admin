@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import * as z from 'zod';
 import React from 'react';
-import FormWrapper from '../common/FormWrapper';
+import FormComponent from '../common/FormComponent';
 import { Repository, Resource } from '@/repository';
 
 export type CreateViewProps<T extends Resource> = {
@@ -29,7 +29,7 @@ function CreateView<T extends Resource>(props: CreateViewProps<T>) {
   });
 
   function onSubmit(data: z.infer<typeof schema>) {
-    console.log('repository', repository);
+    repository?.create(data as T);
     toast({
       title: 'You submitted the following values:',
       description: (
@@ -43,7 +43,7 @@ function CreateView<T extends Resource>(props: CreateViewProps<T>) {
   return (
     <Form {...form}>
       <form className='p-5 space-y-8' onSubmit={form.handleSubmit(onSubmit)}>
-        <FormWrapper form={form}>{children}</FormWrapper>
+        <FormComponent form={form}>{children}</FormComponent>
         <Button>Create</Button>
       </form>
       <Toaster />
