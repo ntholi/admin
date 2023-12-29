@@ -13,26 +13,29 @@ export default function FormWrapper({ children, form }: FormWrapperProps) {
       {React.Children.map(children, (child: React.ReactNode) => {
         if (!React.isValidElement(child)) return child;
         if (child.type == TextInput) {
-          const { name, placeholder, label, description } =
-            child.props as TextInputProps;
-          return (
-            <FormField
-              control={form.control}
-              name={name}
-              render={({ field }) => (
-                <TextInput
-                  field={field}
-                  name={name}
-                  label={label}
-                  placeholder={placeholder}
-                  description={description}
-                />
-              )}
-            />
-          );
+          return <RenderTextInput {...child.props} form={form} />;
         }
         return child;
       })}
     </>
+  );
+}
+
+function RenderTextInput(props: TextInputProps & { form: UseFormReturn }) {
+  const { name, placeholder, label, description, form } = props;
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <TextInput
+          field={field}
+          name={name}
+          label={label}
+          placeholder={placeholder}
+          description={description}
+        />
+      )}
+    />
   );
 }
